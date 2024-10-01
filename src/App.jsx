@@ -47,7 +47,7 @@ function App() {
                 onClick={() => {
                   selectSingleRecipe(recipe.id);
                 }}
-                className="block w-full mt-4 bg-blue-500 text-white rounded-full py-2 px-4 hover:bg-blue-600 focus:outline-none focus:bg-blue-600"
+                className="block w-full mt-4 bg-blue-500 text-white hover:text-gray-950 rounded-full py-2 px-4 hover:bg-blue-900 focus:outline-none focus:bg-blue-800"
               >
                 View Details
               </button>
