@@ -1,9 +1,9 @@
+
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 
 function Singlerecipe({ selectedRecipe, onClose }) {
     useEffect(() => {
-        // This will run when the component mounts and unmounts
         const handleEscape = (event) => {
             if (event.key === 'Escape') {
                 onClose();
@@ -11,64 +11,214 @@ function Singlerecipe({ selectedRecipe, onClose }) {
         };
 
         document.addEventListener('keydown', handleEscape);
+
+        // Prevent body scroll when modal is open
+        document.body.style.overflow = 'hidden';
+
         return () => {
             document.removeEventListener('keydown', handleEscape);
+            document.body.style.overflow = 'unset';
         };
     }, [onClose]);
 
     if (!selectedRecipe) return null;
 
     return (
-        <div className="fixed z-10 inset-0 overflow-y-auto">
-            <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-                <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-                    <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
-                </div>
-                <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
-                <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-4xl sm:w-full">
-                    <div className="bg-white px-4 py-5 sm:p-6">
-                        <div className="sm:flex sm:items-start">
-                            <div className="sm:w-1/2 mx-auto flex-shrink-0 flex items-center justify-center sm:mx-0 sm:h-auto">
-                                {selectedRecipe.image && <img className="h-auto w-full object-cover rounded" src={selectedRecipe.image} alt={selectedRecipe.name} />}
+        <div
+            className="fixed inset-0 z-50 overflow-y-auto"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="modal-title"
+        >
+            {/* Backdrop */}
+            <div
+                className="fixed inset-0 bg-black/40 backdrop-blur-sm transition-all duration-300"
+                onClick={onClose}
+                aria-hidden="true"
+            />
+
+            <div className="flex min-h-screen items-center justify-center p-4">
+                <div
+                    className="relative w-full max-w-6xl overflow-hidden rounded-3xl bg-white shadow-2xl ring-1 ring-black/5"
+                    onClick={(e) => e.stopPropagation()}
+                >
+                    {/* Header */}
+                    <div className="sticky top-0 z-10 flex items-center justify-between border-b bg-white/90 px-6 py-4 backdrop-blur">
+                        <div>
+                            <h2
+                                id="modal-title"
+                                className="text-2xl font-bold tracking-tight text-gray-900 md:text-3xl"
+                            >
+                                {selectedRecipe.name}
+                            </h2>
+
+                            {selectedRecipe.cuisine && (
+                                <p className="mt-1 text-sm text-gray-500">
+                                    {selectedRecipe.cuisine} Cuisine
+                                </p>
+                            )}
+                        </div>
+
+                        <button
+                            type="button"
+                            onClick={onClose}
+                            className="flex h-10 w-10 items-center justify-center rounded-full bg-gray-100 text-lg text-gray-500 transition-all duration-200 hover:bg-red-50 hover:text-red-500"
+                            aria-label="Close recipe modal"
+                        >
+                            ✕
+                        </button>
+                    </div>
+
+                    {/* Content */}
+                    <div className="max-h-[85vh] overflow-y-auto">
+                        <div className="grid gap-8 p-6 md:grid-cols-2">
+                            {/* Left Side - Image */}
+                            <div>
+                                {selectedRecipe.image && (
+                                    <div className="overflow-hidden rounded-2xl shadow-lg">
+                                        <img
+                                            src={selectedRecipe.image}
+                                            alt={selectedRecipe.name}
+                                            className="h-full max-h-125 w-full object-cover transition duration-500 hover:scale-105"
+                                            loading="lazy"
+                                        />
+                                    </div>
+                                )}
                             </div>
-                            <div className="sm:w-1/2 mt-4 sm:mt-0 sm:ml-4">
-                                <h3 className="text-lg leading-6 font-medium text-gray-900" id="modal-title">
-                                    {selectedRecipe.name}
-                                </h3>
-                                <div className="mt-2">
-                                    <p className="text-sm text-gray-500 font-semibold">
-                                        Ingredients:
-                                    </p>
-                                    <ul className="text-sm text-gray-900 list-disc list-inside">
-                                        {selectedRecipe.ingredients.map((ingredient, index) => (
-                                            <li key={index}>{ingredient}</li>
-                                        ))}
-                                    </ul>
-                                    <p className="text-sm text-gray-500 mt-4 font-semibold">
-                                        Cooking Instructions:
-                                    </p>
-                                    <p className="text-sm text-gray-900">
-                                        {selectedRecipe.instructions}
-                                    </p>
-                                    <p className="text-sm text-gray-500 mt-4 font-semibold">
-                                        Calories Per Serving:
-                                    </p>
-                                    <p className="text-sm text-gray-900">
-                                        {selectedRecipe.caloriesPerServing}
-                                    </p>
+
+                            {/* Right Side - Details */}
+                            <div>
+                                {/* Stats */}
+                                <div className="mb-6 grid grid-cols-3 gap-3">
+                                    <div className="rounded-2xl bg-orange-50 p-4 text-center">
+                                        <p className="text-xs uppercase tracking-wide text-gray-500">
+                                            Prep Time
+                                        </p>
+                                        <p className="mt-1 font-bold text-orange-600">
+                                            {selectedRecipe.prepTimeMinutes ||
+                                                '--'}{' '}
+                                            min
+                                        </p>
+                                    </div>
+
+                                    <div className="rounded-2xl bg-green-50 p-4 text-center">
+                                        <p className="text-xs uppercase tracking-wide text-gray-500">
+                                            Calories
+                                        </p>
+                                        <p className="mt-1 font-bold text-green-600">
+                                            {selectedRecipe.caloriesPerServing ||
+                                                '--'}
+                                        </p>
+                                    </div>
+
+                                    <div className="rounded-2xl bg-yellow-50 p-4 text-center">
+                                        <p className="text-xs uppercase tracking-wide text-gray-500">
+                                            Rating
+                                        </p>
+                                        <p className="mt-1 font-bold text-yellow-600">
+                                            ⭐ {selectedRecipe.rating || '--'}
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div className="space-y-5">
+                                    {/* Cuisine */}
+                                    {selectedRecipe.cuisine && (
+                                        <div className="rounded-2xl border border-gray-100 bg-gray-50 p-5">
+                                            <h3 className="mb-2 text-sm font-semibold uppercase tracking-wide text-gray-500">
+                                                Cuisine
+                                            </h3>
+                                            <p className="text-lg font-medium text-gray-800">
+                                                {selectedRecipe.cuisine}
+                                            </p>
+                                        </div>
+                                    )}
+
+                                    {/* Ingredients */}
+                                    {selectedRecipe.ingredients?.length > 0 && (
+                                        <div className="rounded-2xl border border-gray-100 bg-gray-50 p-5">
+                                            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">
+                                                Ingredients
+                                            </h3>
+
+                                            <div className="flex flex-wrap gap-2">
+                                                {selectedRecipe.ingredients.map(
+                                                    (ingredient) => (
+                                                        <span
+                                                            key={ingredient}
+                                                            className="rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-700"
+                                                        >
+                                                            {ingredient}
+                                                        </span>
+                                                    )
+                                                )}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Instructions */}
+                                    {selectedRecipe.instructions && (
+                                        <div className="rounded-2xl border border-gray-100 bg-gray-50 p-5">
+                                            <h3 className="mb-3 text-sm font-semibold uppercase tracking-wide text-gray-500">
+                                                Instructions
+                                            </h3>
+
+                                            {Array.isArray(
+                                                selectedRecipe.instructions
+                                            ) ? (
+                                                <ol className="space-y-3">
+                                                    {selectedRecipe.instructions.map(
+                                                        (step, index) => (
+                                                            <li
+                                                                key={index}
+                                                                className="flex gap-3"
+                                                            >
+                                                                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-blue-600 text-sm font-semibold text-white">
+                                                                    {index + 1}
+                                                                </span>
+
+                                                                <span className="leading-7 text-gray-700">
+                                                                    {step}
+                                                                </span>
+                                                            </li>
+                                                        )
+                                                    )}
+                                                    {selectedRecipe.youtube && (
+                                                        <a
+                                                            href={selectedRecipe.youtube}
+                                                            target="_blank"
+                                                            rel="noreferrer"
+                                                            className="inline-block rounded-xl bg-red-600 px-4 py-2 text-white"
+                                                        >
+                                                            Watch on YouTube
+                                                        </a>
+                                                    )}
+                                                </ol>
+                                            ) : (
+                                                <p className="whitespace-pre-line leading-7 text-gray-700">
+                                                    {
+                                                        selectedRecipe.instructions
+                                                    }
+                                                </p>
+                                            )}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     </div>
-                    <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                        <button
-                            onClick={onClose}
-                            type="button"
-                            className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
-                            aria-label="Close recipe modal"
-                        >
-                            Close
-                        </button>
+
+                    {/* Footer */}
+                    <div className="border-t bg-gray-50 px-6 py-4">
+                        <div className="flex justify-end">
+                            <button
+                                type="button"
+                                onClick={onClose}
+                                className="rounded-xl bg-linear-to-r from-blue-600 to-indigo-600 px-6 py-3 font-medium text-white shadow-md transition-all duration-200 hover:shadow-lg"
+                            >
+                                Close Recipe
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -78,12 +228,18 @@ function Singlerecipe({ selectedRecipe, onClose }) {
 
 Singlerecipe.propTypes = {
     selectedRecipe: PropTypes.shape({
+        id: PropTypes.oneOfType([
+            PropTypes.string,
+            PropTypes.number,
+        ]),
         image: PropTypes.string,
         name: PropTypes.string.isRequired,
-        ingredients: PropTypes.arrayOf(PropTypes.string).isRequired,
-        instructions: PropTypes.string.isRequired,
-        caloriesPerServing: PropTypes.number,
-    }).isRequired,
+        cuisine: PropTypes.string,
+        category: PropTypes.string,
+        youtube: PropTypes.string,
+        ingredients: PropTypes.arrayOf(PropTypes.string),
+        instructions: PropTypes.string,
+    }),
     onClose: PropTypes.func.isRequired,
 };
 

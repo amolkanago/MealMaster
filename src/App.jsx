@@ -1,64 +1,17 @@
-import { useEffect, useState } from 'react';
+import { Routes, Route } from 'react-router-dom';
+import HomePage from './pages/Home';
+import RecipeDetails from './pages/RecipeDetails';
 
-import Singlerecipe from './components/Singlerecipe';
 
 function App() {
-  const [recipelist, setRecipelist] = useState([]);
-  const [selectedRecipe, setSelectedRecipe] = useState(null);
-
-  useEffect(() => {
-    getRecipe();
-  }, []);
-
-  const getRecipe = async () => {
-    try {
-      const res = await fetch('https://dummyjson.com/recipes');
-      const data = await res.json();
-      setRecipelist(data.recipes);
-    } catch (err) {
-      console.error('Error fetching recipes:', err);
-    }
-  };
-
-  const selectSingleRecipe = async (recipe_id) => {
-    try {
-      const res = await fetch(`https://dummyjson.com/recipes/${recipe_id}`);
-      const data = await res.json();
-      setSelectedRecipe(data);
-    } catch (err) {
-      console.error('Error fetching recipe:', err);
-    }
-  };
-  const closeModal = () => {
-    setSelectedRecipe(null);
-  };
-
   return (
-    <div className="py-8 px-4 md:px-0 max-w-[1320px] mx-auto">
-      <h1 className="text-3xl font-bold underline text-center text-blue-400 mb-8">RECIPE LIST</h1>
-
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-        {recipelist.map((recipe, index) => (
-          <div key={index} className="shadow-md rounded-lg overflow-hidden">
-            <img className="w-full h-auto" src={recipe.image} alt={recipe.name} />
-            <div className="p-4">
-              <p className="text-center font-bold mb-2">{recipe.name}</p>
-              <p className="text-center font-bold">{recipe.cuisine}</p>
-              <button
-                onClick={() => {
-                  selectSingleRecipe(recipe.id);
-                }}
-                className="block w-full mt-4 bg-blue-500 text-white hover:text-gray-950 rounded-full py-2 px-4 hover:bg-blue-900 focus:outline-none focus:bg-blue-800"
-              >
-                View Details
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {selectedRecipe && <Singlerecipe selectedRecipe={selectedRecipe} onClose={closeModal} />}
-    </div>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route
+        path="/recipe/:id"
+        element={<RecipeDetails />}
+      />
+    </Routes>
   );
 }
 
