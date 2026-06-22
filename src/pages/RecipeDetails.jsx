@@ -83,18 +83,18 @@ function RecipeDetails() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-gray-50 dark:bg-slate-950">
             <div className="mx-auto max-w-7xl px-4 py-8">
                 {/* Back Button */}
                 <Link
                     to="/"
-                    className="mb-6 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 shadow hover:bg-gray-100"
+                    className="mb-6 inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2 shadow hover:bg-gray-100 dark:bg-slate-900 dark:hover:bg-slate-800"
                 >
                     ← Back to Recipes
                 </Link>
 
                 {/* Hero Section */}
-                <div className="overflow-hidden rounded-3xl bg-white shadow-lg">
+                <div className="overflow-hidden rounded-3xl bg-white shadow-lg dark:bg-slate-900">
                     <img
                         src={recipe.image}
                         alt={recipe.name}
@@ -102,16 +102,16 @@ function RecipeDetails() {
                     />
 
                     <div className="p-8">
-                        <h1 className="text-4xl font-bold text-gray-900">
+                        <h1 className="text-4xl font-bold text-gray-900 dark:text-slate-100">
                             {recipe.name}
                         </h1>
 
                         <div className="mt-4 flex flex-wrap gap-3">
-                            <span className="rounded-full bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-700">
+                            <span className="rounded-full bg-indigo-100 px-4 py-2 text-sm font-medium text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-200">
                                 {recipe.cuisine}
                             </span>
 
-                            <span className="rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-700">
+                            <span className="rounded-full bg-green-100 px-4 py-2 text-sm font-medium text-green-700 dark:bg-green-950/50 dark:text-green-200">
                                 {recipe.category}
                             </span>
                         </div>
@@ -121,8 +121,8 @@ function RecipeDetails() {
                 {/* Content */}
                 <div className="mt-8 grid gap-8 lg:grid-cols-3">
                     {/* Ingredients */}
-                    <div className="rounded-3xl bg-white p-6 shadow">
-                        <h2 className="mb-6 text-2xl font-bold">
+                    <div className="rounded-3xl bg-white p-6 shadow dark:bg-slate-900">
+                        <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-slate-100">
                             Ingredients
                         </h2>
 
@@ -131,12 +131,14 @@ function RecipeDetails() {
                                 (item, index) => (
                                     <li
                                         key={index}
-                                        className="rounded-xl bg-gray-50 p-3"
+                                        className="rounded-xl bg-gray-50 p-3 dark:bg-slate-950/40"
                                     >
-                                        <span className="font-semibold">
+                                        <span className="font-semibold text-slate-900 dark:text-slate-100">
                                             {item.measure}
                                         </span>{' '}
-                                        {item.ingredient}
+                                        <span className="text-slate-700 dark:text-slate-300">
+                                            {item.ingredient}
+                                        </span>
                                     </li>
                                 )
                             )}
@@ -144,12 +146,12 @@ function RecipeDetails() {
                     </div>
 
                     {/* Instructions */}
-                    <div className="rounded-3xl bg-white p-6 shadow lg:col-span-2">
-                        <h2 className="mb-6 text-2xl font-bold">
+                    <div className="rounded-3xl bg-white p-6 shadow lg:col-span-2 dark:bg-slate-900">
+                        <h2 className="mb-6 text-2xl font-bold text-gray-900 dark:text-slate-100">
                             Instructions
                         </h2>
 
-                        <p className="whitespace-pre-line leading-8 text-gray-700">
+                        <p className="whitespace-pre-line leading-8 text-gray-700 dark:text-slate-300">
                             {recipe.instructions}
                         </p>
 

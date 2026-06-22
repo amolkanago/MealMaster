@@ -12,7 +12,7 @@ function SearchBar({ searchTerm, onSearch }) {
                 value={searchTerm}
                 placeholder="Search recipes..."
                 onChange={(e) => onSearch(e.target.value)}
-                className="w-full rounded-2xl border border-gray-200 bg-white py-3 pl-12 pr-4 shadow-sm outline-none transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200"
+                className="w-full rounded-2xl border border-gray-200 bg-white py-3 pl-12 pr-4 shadow-sm outline-none text-slate-900 transition focus:border-indigo-500 focus:ring-4 focus:ring-indigo-200 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100 dark:focus:ring-slate-700"
             />
         </div>
     );

@@ -138,7 +138,7 @@ function HomePage() {
                     Recipe Collection
                 </h1>
 
-                <p className="mt-3 text-sm text-gray-500 sm:text-base">
+                <p className="mt-3 text-sm text-slate-500 sm:text-base dark:text-slate-400">
                     Discover delicious recipes from around the world
                 </p>
             </div>
@@ -155,7 +155,7 @@ function HomePage() {
             />
 
             {error && (
-                <div className="mb-8 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-center text-red-700 shadow-sm">
+                <div className="mb-8 rounded-2xl border border-red-200 bg-red-50 px-4 py-3 text-center text-red-700 shadow-sm dark:border-red-600/30 dark:bg-red-950/40 dark:text-red-200">
                     {error}
                 </div>
             )}
@@ -166,18 +166,18 @@ function HomePage() {
                 </div>
             ) : (
                 <>
-                    <div className="mb-6 text-sm text-gray-500">
+                    <div className="mb-6 text-sm text-slate-500 dark:text-slate-400">
                         Showing {recipes.length} recipe
                         {recipes.length !== 1 ? 's' : ''}
                     </div>
 
                     {recipes.length === 0 ? (
-                        <div className="rounded-3xl border border-dashed border-gray-300 py-16 text-center">
-                            <h2 className="text-xl font-semibold text-gray-700">
+                        <div className="rounded-3xl border border-dashed border-gray-300 py-16 text-center dark:border-slate-600">
+                            <h2 className="text-xl font-semibold text-gray-700 dark:text-slate-100">
                                 No recipes found
                             </h2>
 
-                            <p className="mt-2 text-gray-500">
+                            <p className="mt-2 text-gray-500 dark:text-slate-400">
                                 Try another search term.
                             </p>
                         </div>

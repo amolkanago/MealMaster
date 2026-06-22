@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 function RecipeCard({ recipe }) {
     return (
-        <article className="group overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl">
+        <article className="group overflow-hidden rounded-3xl border border-gray-100 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:border-slate-700 dark:bg-slate-900">
             <div className="relative overflow-hidden">
                 <img
                     src={recipe.image}
@@ -17,18 +17,18 @@ function RecipeCard({ recipe }) {
 
             <div className="space-y-4 p-5">
                 <div>
-                    <h2 className="line-clamp-1 text-xl font-bold text-gray-900">
+                    <h2 className="line-clamp-1 text-xl font-bold text-gray-900 dark:text-slate-100">
                         {recipe.name}
                     </h2>
 
                     {recipe.cuisine && (
-                        <p className="mt-2 inline-flex rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700">
+                        <p className="mt-2 inline-flex rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-700 dark:bg-indigo-950/50 dark:text-indigo-200">
                             {recipe.cuisine}
                         </p>
                     )}
 
                     {recipe.category && (
-                        <p className="mt-2 ml-2 inline-flex rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700">
+                        <p className="mt-2 ml-2 inline-flex rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700 dark:bg-green-950/50 dark:text-green-200">
                             {recipe.category}
                         </p>
                     )}
