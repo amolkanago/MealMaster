@@ -1,5 +1,5 @@
-import  { useEffect, useState } from 'react';
-import axios from 'axios';
+import { useEffect, useState } from 'react';
+
 import Singlerecipe from './components/Singlerecipe';
 
 function App() {
@@ -10,24 +10,25 @@ function App() {
     getRecipe();
   }, []);
 
-  const getRecipe = () => {
-    axios
-      .get('https://dummyjson.com/recipes')
-      .then((res) => res.data)
-      .then((finalres) => {
-        setRecipelist(finalres.recipes);
-      });
+  const getRecipe = async () => {
+    try {
+      const res = await fetch('https://dummyjson.com/recipes');
+      const data = await res.json();
+      setRecipelist(data.recipes);
+    } catch (err) {
+      console.error('Error fetching recipes:', err);
+    }
   };
 
-  const selectSingleRecipe = (recipe_id) => {
-    axios
-      .get(`https://dummyjson.com/recipes/${recipe_id}`)
-      .then((res) => res.data)
-      .then((finalres) => {
-        setSelectedRecipe(finalres);
-      });
+  const selectSingleRecipe = async (recipe_id) => {
+    try {
+      const res = await fetch(`https://dummyjson.com/recipes/${recipe_id}`);
+      const data = await res.json();
+      setSelectedRecipe(data);
+    } catch (err) {
+      console.error('Error fetching recipe:', err);
+    }
   };
-
   const closeModal = () => {
     setSelectedRecipe(null);
   };
