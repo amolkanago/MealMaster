@@ -98,7 +98,7 @@ function RecipeDetails() {
                     <img
                         src={recipe.image}
                         alt={recipe.name}
-                        className="h-[450px] w-full object-cover"
+                        className="h-112.5 w-full object-cover"
                     />
 
                     <div className="p-8">
